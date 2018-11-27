@@ -1,0 +1,7 @@
+from modules.{}.{}_resource import {}Resource
+
+routes = [
+    # {} api routes
+    {'url': '/{url}', 'controller': {}Resource()},
+    {'url': '/{url}/{uid}', 'controller': {}Resource()}
+]

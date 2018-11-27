@@ -1,0 +1,9 @@
+PyMySQL==0.7.9
+gunicorn==19.6.0
+falcon==1.4.1
+falcon-multipart==0.1.0
+peewee==3.7.1
+chameleon==3.0
+termcolor==1.1.0
+waitress==1.0.2
+pyjwt==1.6.4

@@ -1,0 +1,6 @@
+from modules.{}.{}_page import {}Page
+
+routes = [
+    # {} page routes
+    {'url': '/{url}', 'controller': {}Page()},
+]

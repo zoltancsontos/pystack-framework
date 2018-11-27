@@ -1,0 +1,22 @@
+from core.base_page import BasePage
+
+
+class {}Page(BasePage):
+    """
+    {}Page logic
+    """
+    templates_dir = "modules/{}/"
+    template = "{}_template.html"
+
+    def get_data(self, req):
+        """
+        Set up the data source
+        Args:
+            req: object
+        Returns:
+        """
+        data = {
+            "title": "PySaw framework",
+            "text": "Welcome to PySaw!"
+        }
+        return data

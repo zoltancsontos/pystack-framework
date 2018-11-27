@@ -1,0 +1,12 @@
+from core.base_model import *
+
+
+class {}Model(BaseModel):
+    """
+    {} model definition
+    :notes: add any additional fields below id
+    """
+    id = PrimaryKeyField()
+
+    class Meta:
+        order_by = ('id',)
