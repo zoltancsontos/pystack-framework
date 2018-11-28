@@ -240,7 +240,7 @@ class BaseResource(object):
                         resp.status = falcon.HTTP_200
                         data = q
                 else:
-                    data = self.model().get_list()
+                    data = map(self.__process_transient_fields__, self.model().get_list())
                     resp.status = falcon.HTTP_200
                 body = data
             else:
