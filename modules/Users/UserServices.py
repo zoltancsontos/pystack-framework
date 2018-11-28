@@ -5,6 +5,7 @@ import jwt
 import datetime
 from core.base_resource import BaseResource
 
+
 class UserServices:
     """
     User services
