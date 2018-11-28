@@ -1,5 +1,6 @@
 from falcon import *
 from modules.Users.UserServices import UserServices
+from core.base_resource import BaseResource
 
 
 class AuthenticationMiddleware(object):
@@ -33,3 +34,13 @@ class AuthenticationMiddleware(object):
                 resp.content_type = "application/json"
                 resp.unset_cookie("token")
                 raise falcon.HTTPUnauthorized("Access denied", "in order to continue please log in")
+
+    @falcon.after(BaseResource.conn.close)
+    def process_response(self, req, resp):
+        """
+        Close the db connection after the request is processed
+        :param req:
+        :param resp:
+        :return:
+        """
+        pass
