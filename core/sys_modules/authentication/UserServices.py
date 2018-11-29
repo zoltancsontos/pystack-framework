@@ -43,6 +43,7 @@ class UserServices:
                 if existing_token:
                     UserTokenModel().delete_by_id(existing_token.id)
                 UserTokenModel().add(token_data)
+                BaseResource().conn.close()
                 return token
         return None
 
@@ -51,6 +52,7 @@ class UserServices:
         stored_token = UserTokenModel().select().where(UserTokenModel.token == token).first()
         if stored_token:
             UserTokenModel().delete_by_id(stored_token.id)
+        BaseResource().conn.close()
 
     @staticmethod
     def validate(token):
