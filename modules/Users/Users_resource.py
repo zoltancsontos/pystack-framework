@@ -9,3 +9,5 @@ class UsersResource(BaseResource):
     model = UsersModel
     property_types = []
     allowed_methods = ['GET']
+    transient_properties = ['password']
+

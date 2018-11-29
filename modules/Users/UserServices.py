@@ -3,15 +3,17 @@ from modules.Token.Token_model import TokenModel
 import hashlib
 import jwt
 import datetime
+from settings.settings import SETTINGS
 from core.base_resource import BaseResource
+
 
 class UserServices:
     """
     User services
     """
     model = UsersModel
-    __secret__ = "as63518s*&6291sjcbsja"
-    __expiration_hours__ = 24
+    __secret__ = SETTINGS['AUTHENTICATION']['SECRET']
+    __expiration_hours__ = SETTINGS['AUTHENTICATION']['EXPIRATION_HOURS']
 
     @staticmethod
     def login(login, password):
@@ -40,6 +42,8 @@ class UserServices:
                 TokenModel().add(token_data)
                 return token
         return None
+
+    "mysql://root:admin@127.0.0.1/pysaw"
 
     @staticmethod
     def logout(token):

@@ -12,6 +12,7 @@ class BaseResource(object):
     default_content_type = "application/json"
     property_types = []
     allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+    transient_properties = []
 
     def __bad_request__(self, resp, props):
         """
@@ -195,6 +196,19 @@ class BaseResource(object):
                 self.__bad_request__(resp, prop_list)
         return valid_request
 
+    def __process_transient_fields__(self, body):
+        """
+        Removes fields that are marked transient
+        :param body:
+        :return:
+        """
+        if len(self.transient_properties) != 0:
+            if 'message' not in body:
+                for transient_prop in self.transient_properties:
+                    if transient_prop in body:
+                        del body[transient_prop]
+        return body
+
     @falcon.after(conn.close)
     def on_get(self, req=None, resp=None, uid=0):
         """
@@ -226,7 +240,7 @@ class BaseResource(object):
                         resp.status = falcon.HTTP_200
                         data = q
                 else:
-                    data = self.model().get_list()
+                    data = list(map(self.__process_transient_fields__, self.model().get_list()))
                     resp.status = falcon.HTTP_200
                 body = data
             else:
@@ -234,6 +248,7 @@ class BaseResource(object):
                 body = {
                     'message': 'Missing resource model'
                 }
+            body = self.__process_transient_fields__(body)
             resp.content_type = self.default_content_type
             resp.body = (json.dumps(body, indent=4, sort_keys=True, default=str))
 
@@ -254,6 +269,7 @@ class BaseResource(object):
                 content['id'] = last_id
                 resp.status = falcon.HTTP_201
                 resp.content_type = "application/json"
+                content = self.__process_transient_fields__(content)
                 resp.body = (json.dumps(content))
 
     @falcon.after(conn.close)
@@ -288,6 +304,7 @@ class BaseResource(object):
                         content[key] = req_data[key]
 
                 resp.content_type = 'application/json'
+                content = self.__process_transient_fields__(content)
                 resp.body = (json.dumps(content))
 
     @falcon.after(conn.close)
@@ -313,8 +330,10 @@ class BaseResource(object):
                     self.model().change(req_data, self.model, uid)
                     resp.status = falcon.HTTP_201
                 resp.content_type = "application/json"
+                content = self.__process_transient_fields__(content)
                 resp.body = (json.dumps(req_data))
             if uid == 0:
+                content = self.__process_transient_fields__(content)
                 resp.body = (json.dumps(content))
 
     @falcon.after(conn.close)

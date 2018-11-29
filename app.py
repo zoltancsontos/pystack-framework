@@ -1,6 +1,4 @@
 import falcon
-
-
 from core.db_adapter import mysql_adapter
 from core.base_model import database_proxy
 from settings.settings import SETTINGS

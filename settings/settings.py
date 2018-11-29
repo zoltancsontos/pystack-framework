@@ -25,6 +25,10 @@ SETTINGS = {
         'PORT': 3306,
         'SCHEMA': db_schema
     },
+    'AUTHENTICATION': {
+        'SECRET': 'as63518s*&6291sjcbsja',
+        'EXPIRATION_HOURS': 24
+    },
     'VIEWS': {
         'DEFAULT_TEMPLATES_DIR': 'templates',
         'DEFAULT_404_TEMPLATE': '404.html'

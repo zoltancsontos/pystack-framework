@@ -1,7 +1,7 @@
 from core.base_resource import BaseResource
 from modules.Users.Users_model import UsersModel
 from modules.Users.UserServices import UserServices
-from falcon import *
+from falcon import falcon
 import json
 
 
@@ -29,7 +29,7 @@ class LoginService(BaseResource):
             token = UserServices.login(login, password)
             if token is not None:
                 resp.status = falcon.HTTP_200
-                resp.set_cookie("token", str(token, encoding="utf-8"))
+                resp.set_cookie("token", str(token, encoding="utf-8"), path="/", http_only=False)
                 resp.body = (json.dumps({
                     "token": token
                 }, indent=4, sort_keys=True, default=str))
