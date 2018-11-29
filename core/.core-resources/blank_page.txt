@@ -16,7 +16,7 @@ class {}Page(BasePage):
         Returns:
         """
         data = {
-            "title": "PySaw framework",
-            "text": "Welcome to PySaw!"
+            "title": "PyStack framework",
+            "text": "Welcome to PyStack!"
         }
         return data

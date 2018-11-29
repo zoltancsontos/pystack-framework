@@ -10,3 +10,4 @@ class {}Model(BaseModel):
 
     class Meta:
         order_by = ('id',)
+        table_name = '{}_Model'

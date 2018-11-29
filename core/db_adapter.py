@@ -91,5 +91,10 @@ class MySQLDbAdapter(object):
                     table_list.append(table)
             self.db_instance.create_tables(table_list)
 
+            for cr_table in table_list:
+                if len(cr_table.initial_data) != 0:
+                    for in_data in cr_table.initial_data:
+                        cr_table().add(in_data)
+
 
 mysql_adapter = MySQLDbAdapter.Instance()

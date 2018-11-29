@@ -79,7 +79,9 @@ class GeneralHelpers(object):
         Returns the app routes located inside module directory in routes.py files
         Returns: list
         """
-        route_files = GeneralHelpers.get_dir_structure_with_files('modules')
+        divider = '\\' if 'win' in sys.platform and 'darwin' not in sys.platform else '/'
+        route_files = GeneralHelpers.get_dir_structure_with_files('modules') + \
+                      GeneralHelpers.get_dir_structure_with_files('core{}sys_modules'.format(divider))
         app_routes = []
         for route_file in route_files:
             if 'routes.py' in route_file['files']:
@@ -93,13 +95,16 @@ class GeneralHelpers(object):
         Returns the list of models
         :return:
         """
-        module_files = GeneralHelpers.get_dir_structure_with_files('modules')
-        model_files = []
         divider = '\\' if 'win' in sys.platform and 'darwin' not in sys.platform else '/'
+        module_files = GeneralHelpers.get_dir_structure_with_files('core{}sys_modules'.format(divider)) + \
+                       GeneralHelpers.get_dir_structure_with_files('modules')
+        model_files = []
         for model_file in module_files:
             for file in model_file['files']:
                 if '_model.py' in file:
-                    module_name = model_file['module_name']
+                    module_name = file.replace('_model.py', '') \
+                        if 'authentication' in model_file['module_name'] \
+                        else model_file['module_name']
                     module = imp.load_source(
                         module_name + 'Model',
                         model_file['route'] + divider + module_name + '_model.py'

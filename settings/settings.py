@@ -17,15 +17,18 @@ def __get_connection_parts__():
 db_user, db_password, db_host, db_schema = __get_connection_parts__()
 
 SETTINGS = {
+    'APP_VERSION': 'v1',
     'DATABASE': {
         'CONNECTION_STRING': env['CLEARDB_DATABASE_URL'],
         'HOST': db_host,
         'USER': db_user,
         'PASSWORD': db_password,
         'PORT': 3306,
-        'SCHEMA': db_schema
+        'SCHEMA': db_schema,
+        'SQL_DEBUG': False
     },
     'AUTHENTICATION': {
+        'ENABLE_SYS_AUTHENTICATION': True,
         'SECRET': 'as63518s*&6291sjcbsja',
         'EXPIRATION_HOURS': 24
     },
@@ -34,5 +37,13 @@ SETTINGS = {
         'DEFAULT_404_TEMPLATE': '404.html'
     },
     'ASSETS_PATH': 'front-end',
-    'SECURE_COOKIES': False
+    'SECURE_COOKIES': False,
+    'PERMISSIONS': {
+        'GROUPS': [
+            'USER',
+            'ADMIN',
+            'EDITOR'
+        ],
+        'DEFAULT_GROUP': 'USER'
+    }
 }

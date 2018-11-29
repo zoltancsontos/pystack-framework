@@ -12,6 +12,7 @@ class BaseModel(Model):
     Base model definition
     """
     __required_fields__ = []
+    initial_data = []
 
     class Meta:
         database = database_proxy

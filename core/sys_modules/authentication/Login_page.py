@@ -1,12 +1,12 @@
 from core.base_page import BasePage
 
 
-class IndexPage(BasePage):
+class LoginPage(BasePage):
     """
-    BasePage test
+    LoginPage logic
     """
-    templates_dir = "modules/Index/"
-    template = "Index_template.html"
+    templates_dir = "templates/"
+    template = "Login_page.html"
 
     def get_data(self, req):
         """
@@ -16,7 +16,7 @@ class IndexPage(BasePage):
         Returns:
         """
         data = {
-            "title": "PyStack framework",
-            "text": "Welcome to PyStack framework!"
+            "title": "PyStack Login",
+            "text": "Please log in"
         }
         return data
