@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <img class="app-logo" src="assets/images/pysaw-logo.png" alt="PySaw - full stack python framework" />
+            <img class="app-logo" src="assets/images/pystack-logo.png" alt="PyStack - full stack python framework" />
             <h1>${data.text}</h1>
         </div>
     </body>

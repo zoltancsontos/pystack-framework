@@ -8,9 +8,10 @@ from settings.middlewares import middlewares
 import logging
 
 # log all peewee queries
-logger = logging.getLogger('peewee')
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
+if SETTINGS['DATABASE']['SQL_DEBUG']:
+    logger = logging.getLogger('peewee')
+    logger.addHandler(logging.StreamHandler())
+    logger.setLevel(logging.DEBUG)
 
 # Initialize the ORM
 adapter = mysql_adapter
