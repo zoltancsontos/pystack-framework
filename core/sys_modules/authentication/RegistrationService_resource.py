@@ -74,7 +74,7 @@ class RegistrationService(BaseResource):
                 resp.status = falcon.HTTP_201
                 resp.body = (json.dumps(content))
             else:
-                raise falcon.HTTPBadRequest("Ooops", "something went wrong")
+                raise falcon.HTTPBadRequest("Bad request", "user already exists")
 
     def __check_if_username_used__(self, user_name: str, resp):
         """
@@ -85,10 +85,5 @@ class RegistrationService(BaseResource):
         """
         user = self.model.select().where(self.model.email == user_name)
         if user.exists():
-            resp.content_type = "application/json"
-            resp.status = falcon.HTTP_400
-            resp.body = (json.dumps({
-                "message": "user with the provided email already exists"
-            }))
             return True
         return False
