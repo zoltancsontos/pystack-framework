@@ -39,6 +39,7 @@ class UsersResource(BaseResource):
                         .where(UsersPermissionsModel.user == user_id)
                 except self.model.DoesNotExist:
                     db_data = None
+                    BaseResource.conn.close()
                 if db_data is not None:
 
                     user_details = {}
@@ -61,11 +62,14 @@ class UsersResource(BaseResource):
                     resp.status = falcon.HTTP_200
                     resp.body = (json.dumps(data, indent=4, sort_keys=True, default=str))
                     return
+            BaseResource.conn.close()
             raise falcon.HTTPBadRequest('Ooops', 'something went wrong...')
         else:
             if 'json' not in content_type:
+                BaseResource.conn.close()
                 raise falcon.HTTPTemporaryRedirect('/login')
             else:
+                BaseResource.conn.close()
                 raise falcon.HTTPUnauthorized('Access denied', 'in order to continue please log in')
 
 
