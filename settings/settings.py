@@ -25,7 +25,7 @@ SETTINGS = {
         'PASSWORD': db_password,
         'PORT': 3306,
         'SCHEMA': db_schema,
-        'SQL_DEBUG': False
+        'SQL_DEBUG': True
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,

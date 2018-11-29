@@ -41,7 +41,6 @@ assets_dir_paths = GeneralHelpers.get_dir_structure(assets_path)
 asset_routes = []
 
 for asset_route in assets_dir_paths:
-    # print(asset_route['url'], asset_route['path'])
     parsed_asset_route = asset_route['url'].replace('\\', '/')
     asset_routes.append({
         'url': parsed_asset_route + "/{name}",

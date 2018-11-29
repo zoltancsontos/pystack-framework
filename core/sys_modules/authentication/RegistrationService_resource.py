@@ -73,6 +73,8 @@ class RegistrationService(BaseResource):
                 resp.content_type = "application/json"
                 resp.status = falcon.HTTP_201
                 resp.body = (json.dumps(content))
+            else:
+                raise falcon.HTTPBadRequest("Ooops", "something went wrong")
 
     def __check_if_username_used__(self, user_name: str, resp):
         """

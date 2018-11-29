@@ -179,8 +179,6 @@ class BaseResource(object):
 
             # Check if the types are matching
             if valid_request:
-                print(request_props)
-                print(prop_types)
                 for i, val in enumerate(request_props):
                     req_type = request_types[i]
                     orgn_def = self.__get_prop_by_key__(self.property_types, val)

@@ -75,7 +75,6 @@ class MySQLDbAdapter(object):
                 self.db_instance.close()
                 self.isConnected = False
             except AttributeError:
-                print(req, resp)
                 pass
 
     def create_tables(self, tables):
