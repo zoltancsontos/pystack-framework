@@ -1,6 +1,6 @@
 from core.base_resource import BaseResource
 from modules.Users.Users_model import UsersModel
-from falcon import *
+from falcon import falcon, HTTP_201, HTTP_400
 import json
 import hashlib
 

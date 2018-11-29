@@ -1,4 +1,4 @@
-from core.base_model import *
+from core.base_model import BaseModel, PrimaryKeyField, DateTimeField, FloatField
 import datetime
 
 
