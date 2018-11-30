@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT app:app --url_scheme=https
+web: waitress-serve --port=$PORT --url-scheme=https app:app
