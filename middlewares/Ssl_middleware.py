@@ -11,6 +11,7 @@ class SslMiddleware(object):
     def process_request(self, req, resp):
         if SETTINGS['FORCE_SSL']:
             print('ssl is here')
+            print(req.scheme)
             if req.scheme == 'http':
                 print('http')
                 new_url = req.url.replace('http', 'https')
