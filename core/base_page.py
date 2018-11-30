@@ -13,6 +13,7 @@ class BasePage(object):
     templates_dir = 'templates/'
     template = 'index.html'
     data = {}
+    allowed_methods = ['GET']
 
     def load_templates(self, base_dir=None):
         """

@@ -11,7 +11,7 @@ class BaseResource(object):
     conn = mysql_adapter
     default_content_type = "application/json"
     property_types = []
-    allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+    allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     transient_properties = []
 
     def __bad_request__(self, resp, props):
