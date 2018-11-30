@@ -90,7 +90,8 @@ class UserServices:
     @staticmethod
     def get_data_from_token(token):
         try:
+            BaseResource.conn.close()
             return jwt.decode(token, UserServices.__secret__, algorithm='HS256')
         except jwt.ExpiredSignatureError or jwt.InvalidTokenError or jwt.InvalidSignatureError:
+            BaseResource.conn.close()
             return {}
-        BaseResource.conn.close()
