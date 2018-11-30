@@ -17,3 +17,4 @@ class TimeSeriesResource(BaseResource):
     }
     """
     property_types = []
+
