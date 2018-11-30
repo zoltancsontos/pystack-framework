@@ -18,6 +18,7 @@ db_user, db_password, db_host, db_schema = __get_connection_parts__()
 
 SETTINGS = {
     'APP_VERSION': 'v1',
+    'APP_NAME': 'PyStack',
     'DATABASE': {
         'CONNECTION_STRING': env['CLEARDB_DATABASE_URL'],
         'HOST': db_host,
@@ -46,5 +47,10 @@ SETTINGS = {
         ],
         'DEFAULT_GROUP': 'USER'
     },
-    'FORCE_SSL': True
+    'FORCE_SSL': True,
+    'SWAGGER_CONFIG': {
+        'ENABLED': True,
+        'DOCUMENTATION_DESCRIPTION': 'Api documentation',
+        'TERMS_AND_CONDITIONS_URL': 'http://www.google.com'
+    }
 }
