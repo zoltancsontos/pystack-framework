@@ -13,7 +13,8 @@ class SslMiddleware(object):
         '.png',
         '.svg',
         '.jpg',
-        '.ico'
+        '.ico',
+        '.map'
     ]
 
     def process_request(self, req, resp):
