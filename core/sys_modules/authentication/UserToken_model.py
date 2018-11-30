@@ -10,7 +10,7 @@ class UserTokenModel(BaseModel):
     """
     id = PrimaryKeyField()
     user = ForeignKeyField(UsersModel, backref="tokens")
-    token = CharField(max_length=240)
+    token = TextField()
     created = DateTimeField(default=datetime.datetime.now)
 
     class Meta:

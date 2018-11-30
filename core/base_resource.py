@@ -1,6 +1,7 @@
 from falcon import *
 from core.db_adapter import mysql_adapter
 import json
+from settings.settings import SETTINGS
 
 
 class BaseResource(object):
@@ -13,6 +14,8 @@ class BaseResource(object):
     property_types = []
     allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     transient_properties = []
+    expected_request_body = {}
+    group_access = SETTINGS['PERMISSIONS']['GROUPS']
 
     def __bad_request__(self, resp, props):
         """

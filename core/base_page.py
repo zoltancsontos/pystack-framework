@@ -1,5 +1,6 @@
-from falcon import *
-from settings.settings import *
+import os
+from falcon import falcon
+from settings.settings import SETTINGS
 
 from chameleon import PageTemplateLoader
 
@@ -14,6 +15,7 @@ class BasePage(object):
     template = 'index.html'
     data = {}
     allowed_methods = ['GET']
+    group_access = SETTINGS['PERMISSIONS']['GROUPS']
 
     def load_templates(self, base_dir=None):
         """

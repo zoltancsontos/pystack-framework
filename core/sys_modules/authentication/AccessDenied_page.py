@@ -2,12 +2,12 @@ from core.base_page import BasePage
 from settings.settings import SETTINGS
 
 
-class LoginPage(BasePage):
+class AccessDeniedPage(BasePage):
     """
-    LoginPage logic
+    Access denied page logic
     """
     templates_dir = "templates/"
-    template = SETTINGS['VIEWS']['DEFAULT_LOGIN_PAGE_TEMPLATE']
+    template = SETTINGS['VIEWS']['DEFAULT_401_TEMPLATE']
 
     def get_data(self, req):
         """
@@ -17,7 +17,7 @@ class LoginPage(BasePage):
         Returns:
         """
         data = {
-            "title": "PyStack Login",
-            "text": "Please log in"
+            "title": "PyStack",
+            "text": "access denied"
         }
         return data

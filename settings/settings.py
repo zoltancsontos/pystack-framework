@@ -35,7 +35,9 @@ SETTINGS = {
     },
     'VIEWS': {
         'DEFAULT_TEMPLATES_DIR': 'templates',
-        'DEFAULT_404_TEMPLATE': '404.html'
+        'DEFAULT_LOGIN_PAGE_TEMPLATE': 'Login_page.html',
+        'DEFAULT_404_TEMPLATE': '404.html',
+        'DEFAULT_401_TEMPLATE': '401.html'
     },
     'ASSETS_PATH': 'front-end',
     'SECURE_COOKIES': False,

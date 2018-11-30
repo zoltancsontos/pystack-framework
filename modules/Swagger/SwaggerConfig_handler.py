@@ -8,7 +8,7 @@ import inspect
 
 class SwaggerConfigHandler(BaseResource):
     """
-    TimeSeries resource handler
+    Swagger configuration generator
     """
     model = None
     property_types = [],
@@ -17,6 +17,7 @@ class SwaggerConfigHandler(BaseResource):
         '/',
         '/login'
     ]
+    group_access = ['ADMIN']
     model_property_type_mapping = {
         'IntegerField': 'integer',
         'BigIntegerField': 'integer',
@@ -113,6 +114,7 @@ class SwaggerConfigHandler(BaseResource):
 
         swagger_settings = SETTINGS['SWAGGER_CONFIG']
 
+        BaseResource.conn.close()
         resp.body = json.dumps({
             'swagger': '2.0',
             'info': {
@@ -191,8 +193,9 @@ class SwaggerConfigHandler(BaseResource):
         return data
 
     @staticmethod
-    def __get_path_object__(instance_name, path_method, schema, uid=None):
+    def __get_path_object__(instance_name, path_method, schema, uid=None, orgn_resource=None):
         uid_operation_id = "Uid" if uid is not None else ""
+        request_body_methods = ['post', 'put', 'patch', 'delete']
         data = {
             'tags': [instance_name],
             'summary': path_method,
@@ -229,4 +232,7 @@ class SwaggerConfigHandler(BaseResource):
                 'required': True,
                 'description': 'matching uid of the resource'
             }]
+        if path_method in request_body_methods:
+            #print(instance_name)
+            pass
         return data

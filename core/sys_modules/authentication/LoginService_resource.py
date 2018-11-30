@@ -12,6 +12,10 @@ class LoginService(BaseResource):
     model = UsersModel
     property_types = []
     allowed_methods = ['POST']
+    expected_request_body = [{
+        'login': 'str',
+        'password': 'str'
+    }]
 
     @falcon.after(BaseResource.conn.close)
     def on_post(self, req, resp):

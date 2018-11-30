@@ -1,5 +1,6 @@
 from core.sys_modules.authentication.Users_model import UsersModel
 from core.sys_modules.authentication.UserToken_model import UserTokenModel
+from core.sys_modules.authentication.UsersPermissions_model import UsersPermissionsModel
 import hashlib
 import jwt
 import datetime
@@ -12,6 +13,7 @@ class UserServices:
     User services
     """
     model = UsersModel
+    permissions_model = UsersPermissionsModel
     __secret__ = SETTINGS['AUTHENTICATION']['SECRET']
     __expiration_hours__ = SETTINGS['AUTHENTICATION']['EXPIRATION_HOURS']
 
@@ -24,13 +26,23 @@ class UserServices:
                     UsersModel.email == login,
                     UsersModel.password == encoded_password
                 )
+                raw_data = UserServices.permissions_model().select().where(UsersPermissionsModel.user == user.id)
+                user_permissions = []
+                if raw_data:
+                    for data in raw_data:
+                        user_permissions.append({
+                            'group_id': data.group.id,
+                            'group_name': data.group.group_name
+                        })
             except UserServices.model.DoesNotExist:
                 user = None
+                user_permissions = None
             if user is not None:
                 payload = {
                     'payload': {
                         'user_id': user.id,
-                        'user_login': user.email
+                        'user_login': user.email,
+                        'permissions': user_permissions
                     },
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=UserServices.__expiration_hours__)
                 }
@@ -45,6 +57,7 @@ class UserServices:
                 UserTokenModel().add(token_data)
                 BaseResource().conn.close()
                 return token
+        BaseResource.conn.close()
         return None
 
     @staticmethod
@@ -80,3 +93,4 @@ class UserServices:
             return jwt.decode(token, UserServices.__secret__, algorithm='HS256')
         except jwt.ExpiredSignatureError or jwt.InvalidTokenError or jwt.InvalidSignatureError:
             return {}
+        BaseResource.conn.close()

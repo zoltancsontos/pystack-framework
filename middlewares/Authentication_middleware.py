@@ -63,6 +63,44 @@ class AuthenticationMiddleware(object):
                         raise falcon.HTTPTemporaryRedirect('/login')
 
     @falcon.after(BaseResource.conn.close)
+    def process_resource(self, req, resp, resource, params):
+        """
+        Process resource
+        :param req:
+        :param resp:
+        :param resource:
+        :param params:
+        :return:
+        """
+        try:
+            access = getattr(resource, 'group_access')
+        except AttributeError:
+            access = []
+        if len(access) != 0:
+            token = None if 'token' not in req.cookies else req.cookies['token']
+            if token is not None and token != '':
+                data = UserServices.get_data_from_token(token)
+                payload = {} if 'payload' not in data else data['payload']
+                if 'permissions' in payload:
+                    permissions = payload['permissions']
+                    has_permissions = False
+                    for permission in permissions:
+                        if permission['group_name'] in access:
+                            has_permissions = True
+                            break
+                    if not has_permissions:
+                        content_type = '' if req.content_type is None else req.content_type
+                        if 'json' in content_type:
+                            BaseResource.conn.close()
+                            raise falcon.HTTPUnauthorized(
+                                "Access denied",
+                                "You don't have sufficient permissions to view this resource")
+                        else:
+                            BaseResource.conn.close()
+                            raise falcon.HTTPTemporaryRedirect('/access-denied')
+        BaseResource.conn.close()
+
+    @falcon.after(BaseResource.conn.close)
     def process_response(self, req, resp):
         """
         Close the db connection after the request is processed
