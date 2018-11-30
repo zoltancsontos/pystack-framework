@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>${data.title}</title>
+        <link rel="stylesheet" href="/assets/css/swagger-ui.css" />
+    </head>
+    <body>
+        <div id="swagger-ui-wrapper"></div>
+        <script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+        <script>
+            SwaggerUIBundle({
+                dom_id: '#swagger-ui-wrapper',
+                url: '/v1/swagger-config'
+            });
+        </script>
+    </body>
+</html>
