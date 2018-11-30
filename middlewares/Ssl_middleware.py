@@ -10,9 +10,9 @@ class SslMiddleware(object):
 
     def process_request(self, req, resp):
         if SETTINGS['FORCE_SSL']:
-            print('ssl is here')
+            print('ssl is here', req.url)
             print(req.scheme)
-            if req.scheme == 'http':
+            if 'https' not in req.url:
                 print('http')
                 new_url = req.url.replace('http', 'https')
                 logging.debug(new_url)
