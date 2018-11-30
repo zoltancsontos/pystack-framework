@@ -45,5 +45,6 @@ SETTINGS = {
             'EDITOR'
         ],
         'DEFAULT_GROUP': 'USER'
-    }
+    },
+    'FORCE_SSL': True
 }
