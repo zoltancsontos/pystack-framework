@@ -17,7 +17,7 @@ class SwaggerConfigHandler(BaseResource):
         '/',
         '/login'
     ]
-    group_access = ['ADMIN']
+    group_access = ['ADMIN', 'DEVELOPER']
     model_property_type_mapping = {
         'IntegerField': 'integer',
         'BigIntegerField': 'integer',
@@ -61,6 +61,7 @@ class SwaggerConfigHandler(BaseResource):
         paths = {}
         definitions = {}
         model_names = {}
+        expected_request_types = []
 
         for route in routes:
             controller = route['controller']
@@ -99,10 +100,23 @@ class SwaggerConfigHandler(BaseResource):
                                                                                                     method_val)
                                 }
                             model_names[url] = {
-                                'model': definition_name
+                                'model': definition_name,
+                                'expected_request_body': None
                             }
 
+                        if 'expected_request_body' in method_name:
+                            if method_val is not None:
+                                if url not in expected_request_types:
+                                    expected_request_types.append({
+                                        'url': url,
+                                        'value': method_val
+                                    })
+
                 if 'Page' not in instance_name:
+                    for expected_type in expected_request_types:
+                        item_url = expected_type['url']
+                        if item_url in model_names:
+                            model_names[item_url]['expected_request_body'] = expected_type['value']
                     SwaggerConfigHandler.__handle_path_methods__(path_methods, url, model_names, instance_name, paths)
 
         resp.content_type = 'application/json'
@@ -149,19 +163,22 @@ class SwaggerConfigHandler(BaseResource):
         """
         for path_method in path_methods:
             # handling of uid methods
+            expected_request_body = model_names[url]['expected_request_body']
             used_model_name = model_names[url]['model'] if url in model_names else ''
             if (path_method == 'get' or
                 path_method == 'put' or
                 path_method == 'patch' or
                 path_method == 'delete') and 'uid' in url:
                 paths[url][path_method] = \
-                    SwaggerConfigHandler.__get_path_object__(instance_name, path_method, used_model_name, True)
+                    SwaggerConfigHandler.__get_path_object__(instance_name, path_method, used_model_name,
+                                                             True, expected_request_body)
 
             # handling of non uid methods
             if (path_method == 'get' or
                 path_method == 'post') and 'uid' not in url:
                 paths[url][path_method] = \
-                    SwaggerConfigHandler.__get_path_object__(instance_name, path_method, used_model_name)
+                    SwaggerConfigHandler.__get_path_object__(instance_name, path_method, used_model_name,
+                                                             False, expected_request_body)
 
     @staticmethod
     def __process_tags__(instance_name, used_tag_names, tags):
@@ -175,7 +192,7 @@ class SwaggerConfigHandler(BaseResource):
         if instance_name not in used_tag_names and 'Page' not in instance_name:
             tags.append({
                 'name': instance_name,
-                'description': 'rest api definitions'
+                'description': 'rest service definition'
             })
             used_tag_names.append(instance_name)
 
@@ -193,7 +210,7 @@ class SwaggerConfigHandler(BaseResource):
         return data
 
     @staticmethod
-    def __get_path_object__(instance_name, path_method, schema, uid=None, orgn_resource=None):
+    def __get_path_object__(instance_name, path_method, schema, uid=None, expected_request_body=None):
         uid_operation_id = "Uid" if uid is not None else ""
         request_body_methods = ['post', 'put', 'patch', 'delete']
         data = {
@@ -201,17 +218,20 @@ class SwaggerConfigHandler(BaseResource):
             'summary': path_method,
             'consumes': ['application/json'],
             'produces': ['application/json'],
-            'operationId': path_method +
-                           instance_name.replace('Resource', '') +
-                           uid_operation_id +
-                           'Using' +
-                           path_method.upper(),
+            'operationId': path_method + instance_name.replace('Resource', '') +
+                            uid_operation_id + 'Using' + path_method.upper(),
             'responses': {
                 '200': {
                     'description': 'OK',
                     'schema': {
                         '$ref': '#/definitions/{}'.format(schema)
                     }
+                },
+                '201': {
+                    'description': 'Created',
+                },
+                '204': {
+                    'description': 'No content',
                 },
                 '401': {
                     'description': 'Unauthorized'
@@ -233,6 +253,40 @@ class SwaggerConfigHandler(BaseResource):
                 'description': 'matching uid of the resource'
             }]
         if path_method in request_body_methods:
-            #print(instance_name)
-            pass
+            if expected_request_body is None:
+                param = {
+                    'in': 'body',
+                    'name': schema,
+                    'description': '',
+                    'schema': {
+                        '$ref': '#/definitions/{}'.format(schema)
+                    }
+                }
+            else:
+                param = {
+                    'in': 'body',
+                    'name': schema,
+                    'description': '',
+                    'schema': {
+                        'type': 'object',
+                        'required': [],
+                        'properties': {}
+                    }
+                }
+                for item in expected_request_body:
+                    if item['required']:
+                        param['schema']['required'].append(item['name'])
+                    param['schema']['properties'][item['name']] = {
+                        'type': SwaggerConfigHandler.__convert_python_type_to_json_type__(item['type'])
+                    }
+            if uid:
+                data['parameters'].append(param)
+            else:
+                data['parameters'] = [param]
         return data
+
+    @staticmethod
+    def __convert_python_type_to_json_type__(python_type):
+        if python_type == 'str':
+            return 'string'
+        return 'object'

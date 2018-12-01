@@ -45,7 +45,8 @@ SETTINGS = {
         'GROUPS': [
             'USER',
             'ADMIN',
-            'EDITOR'
+            'EDITOR',
+            'DEVELOPER'
         ],
         'DEFAULT_GROUP': 'USER'
     },

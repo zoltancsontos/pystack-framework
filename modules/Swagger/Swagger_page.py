@@ -7,7 +7,7 @@ class SwaggerPage(BasePage):
     """
     templates_dir = "modules/Swagger/"
     template = "Swagger_template.html"
-    group_access = ['ADMIN']
+    group_access = ['ADMIN', 'DEVELOPER']
 
     def get_data(self, req):
         """

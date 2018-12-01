@@ -13,7 +13,8 @@ class AuthenticationMiddleware(object):
         '/v1/users/logout',
         '/v1/users/login',
         '/v1/users/register',
-        '/login'
+        '/login',
+        '/access-denied'
     ]
 
     EXTENSION_WHITELIST = [
@@ -57,9 +58,11 @@ class AuthenticationMiddleware(object):
                         raise falcon.HTTPUnauthorized('Access denied', 'in order to continue please log in')
                     else:
                         redirect = req.relative_uri
-                        resp.unset_cookie('redirect')
-                        if 'logout' not in redirect:
+                        if 'logout' not in redirect and 'access-denied' not in redirect:
                             resp.set_cookie('redirect', redirect.strip('\"'), max_age=600, path='/', http_only=False)
+                        else:
+                            print('access-denied_page')
+                            resp.unset_cookie('redirect')
                         raise falcon.HTTPTemporaryRedirect('/login')
 
     @falcon.after(BaseResource.conn.close)
