@@ -199,6 +199,7 @@ class SwaggerConfigHandler(BaseResource):
     @staticmethod
     def __handle_def_property_list__(properties, class_method):
         data = {}
+        print(properties, class_method)
         type_mapping = SwaggerConfigHandler.model_property_type_mapping
         for prop in properties:
             prop_class = getattr(class_method, prop)

@@ -36,7 +36,7 @@ img.app-logo {
   max-width: 500px;
 }
 .login .wrapper h1 {
-  font-size: 18px;
+  font-size: 20px;
   border-top: 0;
   margin-top: 0;
   margin-bottom: 0;
@@ -66,6 +66,7 @@ img.app-logo {
   padding: 0 5px;
   box-sizing: border-box;
   border: 0;
+  font-size: 13px;
 }
 .login #login-form input#sign-in {
   border: 0;
