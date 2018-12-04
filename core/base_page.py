@@ -10,6 +10,8 @@ class BasePage(object):
     Generic base page object
     """
 
+    model = None
+    property_types = []
     default_404 = SETTINGS['VIEWS']['DEFAULT_404_TEMPLATE']
     templates_dir = 'templates/'
     template = 'index.html'

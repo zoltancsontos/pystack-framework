@@ -36,13 +36,13 @@ class UserServices {
         let message = document.querySelector('.message');
         message.classList.add('hide');
 
-        let login = document.getElementById("login").value;
+        let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
 
-        if (login === "" || password === "") {
+        if (email === "" || password === "") {
             this.setMessage("missing username or password", "error");
         } else {
-            this.sendRequest(login, password)
+            this.sendRequest(email, password)
         }
     }
 
@@ -88,13 +88,13 @@ class UserServices {
 
     /**
      * Sends the request to the server
-     * @param {string} loginStr
+     * @param {string} emailStr
      * @param {string} passwordStr
      */
-    sendRequest(loginStr, passwordStr) {
+    sendRequest(emailStr, passwordStr) {
         let xhr = new XMLHttpRequest();
         var data = {
-            login: loginStr,
+            email: emailStr,
             password: passwordStr
         };
         xhr.open("POST", "/v1/users/login", true);

@@ -53,6 +53,7 @@ SETTINGS = {
     'FORCE_SSL': True,
     'SWAGGER_CONFIG': {
         'ENABLED': True,
+        'DOCUMENTATION_TITLE': 'My awesome api',
         'DOCUMENTATION_DESCRIPTION': 'Api documentation',
         'TERMS_AND_CONDITIONS_URL': 'http://www.google.com'
     }

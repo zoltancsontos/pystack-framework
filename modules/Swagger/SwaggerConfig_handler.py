@@ -11,7 +11,6 @@ class SwaggerConfigHandler(BaseResource):
     Swagger configuration generator
     """
     model = None
-    property_types = [],
     allowed_methods = ['GET']
     url_blacklist = [
         '/',
@@ -83,28 +82,30 @@ class SwaggerConfigHandler(BaseResource):
                             for val in method_val:
                                 path_methods.append(val.lower())
                         if 'model' in method_name:
-                            definition_name = method_val().__class__.__name__
-                            raw_properties = vars(method_val)
-                            non_private_properties = list(filter(lambda i:
-                                                                 not i.startswith('__') and
-                                                                 not i.startswith('_'),
-                                                                 raw_properties))
-                            properties = list(filter(lambda i:
-                                                     i != 'DoesNotExist' and
-                                                     i != 'created' and
-                                                     i != 'id', non_private_properties))
-                            if definition_name not in definitions:
-                                definitions[definition_name] = {
-                                    'type': 'object',
-                                    'properties': SwaggerConfigHandler.__handle_def_property_list__(properties,
-                                                                                                    method_val)
+                            definition_name = method_val.__name__ if inspect.isclass(method_val) \
+                                else method_val.__class__.__name__
+                            if definition_name is not None and inspect.isclass(method_val):
+                                raw_properties = vars(method_val)
+                                non_private_properties = list(filter(lambda i:
+                                                                     not i.startswith('__') and
+                                                                     not i.startswith('_'),
+                                                                     raw_properties))
+                                properties = list(filter(lambda i:
+                                                         i != 'DoesNotExist' and
+                                                         i != 'created' and
+                                                         i != 'id', non_private_properties))
+                                if definition_name not in definitions:
+                                    definitions[definition_name] = {
+                                        'type': 'object',
+                                        'properties': SwaggerConfigHandler.__handle_def_property_list__(properties,
+                                                                                                        method_val)
+                                    }
+                                model_names[url] = {
+                                    'model': definition_name,
+                                    'expected_request_body': None
                                 }
-                            model_names[url] = {
-                                'model': definition_name,
-                                'expected_request_body': None
-                            }
 
-                        if 'expected_request_body' in method_name:
+                        if 'property_types' in method_name:
                             if method_val is not None:
                                 if url not in expected_request_types:
                                     expected_request_types.append({
@@ -134,7 +135,7 @@ class SwaggerConfigHandler(BaseResource):
             'info': {
                 'description': swagger_settings['DOCUMENTATION_DESCRIPTION'],
                 'version': SETTINGS['APP_VERSION'],
-                'title': SETTINGS['APP_NAME'] + ' resources',
+                'title': swagger_settings['DOCUMENTATION_TITLE'],
                 'termsOfService': swagger_settings['TERMS_AND_CONDITIONS_URL'],
                 'contact': {},
                 'license': {
@@ -199,7 +200,6 @@ class SwaggerConfigHandler(BaseResource):
     @staticmethod
     def __handle_def_property_list__(properties, class_method):
         data = {}
-        print(properties, class_method)
         type_mapping = SwaggerConfigHandler.model_property_type_mapping
         for prop in properties:
             prop_class = getattr(class_method, prop)
@@ -276,8 +276,8 @@ class SwaggerConfigHandler(BaseResource):
                 }
                 for item in expected_request_body:
                     if item['required']:
-                        param['schema']['required'].append(item['name'])
-                    param['schema']['properties'][item['name']] = {
+                        param['schema']['required'].append(item['key'])
+                    param['schema']['properties'][item['key']] = {
                         'type': SwaggerConfigHandler.__convert_python_type_to_json_type__(item['type'])
                     }
             if uid:
