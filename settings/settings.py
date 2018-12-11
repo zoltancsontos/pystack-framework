@@ -1,16 +1,11 @@
 import os
-import re
 from core.orm.db_type import DbType
-from helpers.db_helpers import DbHelpers
 
 env = os.environ
 
 """
 Generic application SETTINGS
 """
-# db_type, db_user, db_password, db_host, db_schema = \
-#     DbHelpers.__get_connection_parts__(env['CLEARDB_DATABASE_URL'])
-
 SETTINGS = {
     'APP_VERSION': 'v1',
     'APP_NAME': 'PyStack',
@@ -21,7 +16,7 @@ SETTINGS = {
         # 'USER': db_user,
         # 'PASSWORD': db_password,
         # 'PORT': 3306,
-        # 'SCHEMA': db_schema,
+        # 'SCHEMA': db_schema
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,

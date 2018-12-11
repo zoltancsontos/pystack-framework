@@ -17,7 +17,7 @@ class BaseModel(Model):
 
     class Meta:
         database = database_proxy
-        if SETTINGS['DATABASE']['ADAPTER_TYPE'] != DbType.SQLLITE:
+        if SETTINGS['DATABASE']['ADAPTER_TYPE'] == DbType.MYSQL:
             schema = SETTINGS['DATABASE']['SCHEMA']
 
     @staticmethod

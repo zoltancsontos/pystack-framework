@@ -27,6 +27,10 @@ class DbAdapter(object):
             self.isConnected = True
 
     def __set_db_instance__(self):
+        """
+        Sets the database instance based on config
+        :return:
+        """
         db_settings = self.__settings__
         db_type = db_settings['ADAPTER_TYPE']
         if db_type == DbType.MYSQL:
@@ -40,7 +44,7 @@ class DbAdapter(object):
                                                   host=db_settings['HOST'],
                                                   port=int(db_settings['PORT']),
                                                   user=db_settings['USER'],
-                                                  passwd=db_settings['PASSWORD'])
+                                                  password=db_settings['PASSWORD'])
         elif db_type == DbType.SQLLITE:
             self.db_instance = SqliteDatabase('app.db')
 
