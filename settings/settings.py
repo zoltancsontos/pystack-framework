@@ -1,32 +1,27 @@
 import os
 import re
+from core.orm.db_type import DbType
+from helpers.db_helpers import DbHelpers
 
 env = os.environ
 
 """
 Generic application SETTINGS
 """
-
-
-def __get_connection_parts__():
-    conn_str = env['CLEARDB_DATABASE_URL']
-    user, password, host, database = re.match('mysql://(.*?):(.*?)@(.*?)/(.*)', conn_str).groups()
-    return user, password, host, database
-
-
-db_user, db_password, db_host, db_schema = __get_connection_parts__()
+# db_type, db_user, db_password, db_host, db_schema = \
+#     DbHelpers.__get_connection_parts__(env['CLEARDB_DATABASE_URL'])
 
 SETTINGS = {
     'APP_VERSION': 'v1',
     'APP_NAME': 'PyStack',
     'DATABASE': {
-        'CONNECTION_STRING': env['CLEARDB_DATABASE_URL'],
-        'HOST': db_host,
-        'USER': db_user,
-        'PASSWORD': db_password,
-        'PORT': 3306,
-        'SCHEMA': db_schema,
-        'SQL_DEBUG': True
+        'ADAPTER_TYPE': DbType.SQLLITE,
+        'SQL_DEBUG': True,
+        # 'HOST': db_host,
+        # 'USER': db_user,
+        # 'PASSWORD': db_password,
+        # 'PORT': 3306,
+        # 'SCHEMA': db_schema,
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,
@@ -43,17 +38,19 @@ SETTINGS = {
     'SECURE_COOKIES': False,
     'PERMISSIONS': {
         'GROUPS': [
-            'USER',
             'ADMIN',
+            'USER',
             'EDITOR',
             'DEVELOPER'
         ],
         'DEFAULT_GROUP': 'USER'
     },
+    'DEFAULT_ADMIN_EMAIL': 'admin@admin.com',
+    'DEFAULT_ADMIN_PASSWORD': 'admin',
     'FORCE_SSL': True,
     'SWAGGER_CONFIG': {
         'ENABLED': True,
-        'DOCUMENTATION_TITLE': 'My awesome api',
+        'DOCUMENTATION_TITLE': 'App title',
         'DOCUMENTATION_DESCRIPTION': 'Api documentation',
         'TERMS_AND_CONDITIONS_URL': 'http://www.google.com'
     }

@@ -1,5 +1,5 @@
 from falcon import *
-from core.db_adapter import mysql_adapter
+from core.orm.db_adapter import db_adapter
 import json
 from settings.settings import SETTINGS
 
@@ -9,7 +9,7 @@ class BaseResource(object):
     REST API Resource base class
     """
     model = None
-    conn = mysql_adapter
+    conn = db_adapter
     default_content_type = "application/json"
     property_types = []
     allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']

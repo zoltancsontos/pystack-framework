@@ -1,5 +1,5 @@
 from helpers.general_helpers import GeneralHelpers
-from core.db_adapter import mysql_adapter
+from core.orm.db_adapter import db_adapter
 from core.migrators.sql_statements import SqlStatements
 from core.migrators.mysql.information_schema import InformationSchema
 from core.migrators.migrator_interface import MigratorInterface
@@ -21,7 +21,7 @@ class MySqlMigrator(MigratorInterface):
         Creates a db connection
         :return:
         """
-        self.adapter = mysql_adapter
+        self.adapter = db_adapter
         self.adapter.connect()
         self.db_proxy.initialize(self.adapter.db_instance)
         self.db = self.db_proxy

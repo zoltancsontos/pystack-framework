@@ -1,48 +1,18 @@
 from helpers.singleton import *
 from settings import settings
-from peewee import MySQLDatabase
+from peewee import MySQLDatabase, PostgresqlDatabase, SqliteDatabase
+from core.orm.db_type import DbType
 import operator
 
 
-db_schema = settings.SETTINGS['DATABASE']['SCHEMA']
-INFO_SCHEMA_COLUMN_LIST = [
-    "table_catalog",
-    "table_schema",
-    "table_name",
-    "column_name",
-    "ordinal_position",
-    "column_default",
-    "is_nullable",
-    "data_type",
-    "character_maximum_length",
-    "character_octet_length",
-    "numeric_precision",
-    "numeric_scale",
-    "character_set_name",
-    "collation_name",
-    "column_type",
-    "column_key",
-    "extra",
-    "privileges",
-    "column_comment"
-]
-
-
 @Singleton
-class MySQLDbAdapter(object):
+class DbAdapter(object):
     """
     Database adapter for peewee ORM
     """
 
     isConnected = False
     db_instance = None
-    statements = {
-        'list_tables': 'SELECT table_name FROM information_schema.tables WHERE table_schema = "' +
-                       db_schema + '"',
-        'list_table_properties': 'SELECT ' + ','.join(INFO_SCHEMA_COLUMN_LIST) +
-                                 ' FROM information_schema.columns WHERE table_schema = "' +
-                                 db_schema + '" AND TABLE_NAME = "{}";'
-    }
 
     __settings__ = settings.SETTINGS['DATABASE']
 
@@ -51,17 +21,28 @@ class MySQLDbAdapter(object):
         Connects to the specified DB
         Returns:
         """
-        db_settings = self.__settings__
-
-        self.db_instance = MySQLDatabase(db_settings['SCHEMA'],
-                                         host=db_settings['HOST'],
-                                         port=int(db_settings['PORT']),
-                                         user=db_settings['USER'],
-                                         passwd=db_settings['PASSWORD'])
+        self.__set_db_instance__()
         self.db_instance.connect()
-        
         if self.db_instance is not None:
             self.isConnected = True
+
+    def __set_db_instance__(self):
+        db_settings = self.__settings__
+        db_type = db_settings['ADAPTER_TYPE']
+        if db_type == DbType.MYSQL:
+            self.db_instance = MySQLDatabase(db_settings['SCHEMA'],
+                                             host=db_settings['HOST'],
+                                             port=int(db_settings['PORT']),
+                                             user=db_settings['USER'],
+                                             passwd=db_settings['PASSWORD'])
+        elif db_type == DbType.POSTGRES:
+            self.db_instance = PostgresqlDatabase(db_settings['SCHEMA'],
+                                                  host=db_settings['HOST'],
+                                                  port=int(db_settings['PORT']),
+                                                  user=db_settings['USER'],
+                                                  passwd=db_settings['PASSWORD'])
+        elif db_type == DbType.SQLLITE:
+            self.db_instance = SqliteDatabase('app.db')
 
     def close(self, req=None, resp=None):
         """
@@ -98,4 +79,4 @@ class MySQLDbAdapter(object):
                         cr_table().add(in_data)
 
 
-db_adapter = MySQLDbAdapter.Instance()
+db_adapter = DbAdapter.Instance()

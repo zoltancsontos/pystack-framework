@@ -40,7 +40,7 @@ class UserServices {
         let password = document.getElementById("password").value;
 
         if (email === "" || password === "") {
-            this.setMessage("missing username or password", "error");
+            this.setMessage("missing email or password", "error");
         } else {
             this.sendRequest(email, password)
         }

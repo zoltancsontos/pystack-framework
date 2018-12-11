@@ -32,8 +32,8 @@ class LoginService(BaseResource):
         body = {
             'message': 'Missing mandatory parameters login or password'
         }
-        if 'login' and 'password' in req_data:
-            login = req_data['login']
+        if 'email' in req_data and 'password' in req_data:
+            login = req_data['email']
             password = req_data['password']
             token = UserServices.login(login, password)
             if token is not None:

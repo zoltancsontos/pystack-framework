@@ -1,7 +1,7 @@
 body, html {
   margin: 0;
   padding: 0;
-  background: #353a46;
+  background: #1D1E35;
   font-family: Helvetica Neue, Helvetica;
   color: white;
   font-weight: 300;
@@ -29,7 +29,7 @@ img.app-logo {
 }
 
 .login img.app-logo {
-  width: 100px;
+  width: 130px;
 }
 .login .wrapper {
   margin:30px auto;
@@ -57,7 +57,7 @@ img.app-logo {
   max-width: 300px;
   text-align: left;
   margin: 40px auto;
-  box-shadow: 0 0 50px #222;
+  box-shadow: 0 0 50px #000;
   padding: 10px 20px 50px 20px;
 }
 .login #login-form input {

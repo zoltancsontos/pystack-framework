@@ -70,10 +70,10 @@ class BasePage(object):
         data = self.get_data(req)
         templates = self.load_templates()
         try:
+            print(self.template)
             template = templates[self.template]
         except ValueError as val:
-            data['template_error'] = str(val)
-            template = templates[self.default_404]
+            self.__forbidden_handler__(req, resp)
         resp.status = falcon.HTTP_200
         resp.content_type = "text/html"
         resp.body = (template(data=data))

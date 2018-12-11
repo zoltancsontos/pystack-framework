@@ -1,5 +1,5 @@
 import falcon
-from core.db_adapter import mysql_adapter
+from core.orm.db_adapter import db_adapter
 from core.base_model import database_proxy
 from settings.settings import SETTINGS
 from settings.routes import routes
@@ -14,7 +14,7 @@ if SETTINGS['DATABASE']['SQL_DEBUG']:
     logger.setLevel(logging.DEBUG)
 
 # Initialize the ORM
-adapter = mysql_adapter
+adapter = db_adapter
 adapter.connect()
 database_proxy.initialize(adapter.db_instance)
 
