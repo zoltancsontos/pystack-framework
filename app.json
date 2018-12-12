@@ -1,0 +1,10 @@
+{
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "cd tests",
+        "test": "python test_runner.py"
+      }
+    }
+  }
+}
