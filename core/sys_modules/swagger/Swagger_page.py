@@ -5,7 +5,7 @@ class SwaggerPage(BasePage):
     """
     SwaggerPage logic
     """
-    templates_dir = "core/sys_modules/Swagger/"
+    templates_dir = "core/sys_modules/swagger/"
     template = "Swagger_template.html"
     group_access = ['ADMIN', 'DEVELOPER']
 

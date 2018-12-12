@@ -7,7 +7,7 @@ import json
 
 class SwaggerConfigurationGenerator(BaseResource):
     """
-    Swagger configuration generator
+    swagger configuration generator
     """
     excluded_prop_fields = ['id', 'created']
 
@@ -53,8 +53,8 @@ class SwaggerConfigurationGenerator(BaseResource):
         'ForeignKeyField': 'integer'
     }
     exclude_keywords = [
-        'Page',
-        'Swagger'
+        'page',
+        'swagger'
     ]
 
     @falcon.after(BaseResource.conn.close)
@@ -136,7 +136,6 @@ class SwaggerConfigurationGenerator(BaseResource):
     def __assign_methods_to_path__(url, paths, allowed_methods, res_name, model_name, use_property_types = False):
         this = SwaggerConfigurationGenerator
         model = model_name
-
         if use_property_types:
             model = res_name + 'RequestModel'
 
@@ -343,8 +342,9 @@ class SwaggerConfigurationGenerator(BaseResource):
         :return: boolean
         """
         this = SwaggerConfigurationGenerator
+        lwr_class_name = class_name.lower()
         for keyword in this.exclude_keywords:
-            if keyword in class_name:
+            if keyword in lwr_class_name:
                 return True
         return False
 

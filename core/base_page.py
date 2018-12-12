@@ -70,7 +70,6 @@ class BasePage(object):
         data = self.get_data(req)
         templates = self.load_templates()
         try:
-            print(self.template)
             template = templates[self.template]
         except ValueError as val:
             self.__forbidden_handler__(req, resp)
