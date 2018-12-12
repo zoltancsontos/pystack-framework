@@ -2,7 +2,7 @@
   "environments": {
     "test": {
       "scripts": {
-        "test": "python tests/test_runner.py"
+        "test": "python -m unittest discover -s tests -p '*_test.py'"
       }
     }
   }

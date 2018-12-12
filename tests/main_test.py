@@ -1,7 +1,7 @@
 import unittest
 
 
-class TestRunner(unittest.TestCase):
+class MainTest(unittest.TestCase):
 
     def setUp(self):
         pass
