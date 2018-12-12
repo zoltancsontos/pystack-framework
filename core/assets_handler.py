@@ -36,6 +36,7 @@ class BaseAsset(object):
         resp.stream = open(file_path, 'rb')
         resp.stream_len = os.path.getsize(file_path)
 
+
 assets_path = SETTINGS['ASSETS_PATH']
 assets_dir_paths = GeneralHelpers.get_dir_structure(assets_path)
 asset_routes = []
