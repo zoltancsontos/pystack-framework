@@ -6,7 +6,7 @@ class ExampleApiModel(BaseModel):
     ExampleApi model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
     item_name = CharField()
     item_type = CharField()
 

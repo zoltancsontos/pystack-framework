@@ -9,7 +9,7 @@ class UsersModel(BaseModel):
     Users model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
     first_name = CharField(max_length=60)
     middle_name = CharField(max_length=60)
     last_name = CharField(max_length=100)

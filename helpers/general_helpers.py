@@ -101,7 +101,7 @@ class GeneralHelpers(object):
         model_files = []
         for model_file in module_files:
             for file in model_file['files']:
-                if '_model.py' in file:
+                if '_model.py' in file and '.pyc' not in file:
                     module_name = file.replace('_model.py', '') \
                         if 'authentication' in model_file['module_name'] \
                         else model_file['module_name']

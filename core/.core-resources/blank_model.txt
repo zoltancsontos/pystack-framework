@@ -6,7 +6,7 @@ class {}Model(BaseModel):
     {} model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
 
     class Meta:
         order_by = ('id',)

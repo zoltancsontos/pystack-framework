@@ -8,7 +8,7 @@ class UsersPermissionsModel(BaseModel):
     Users model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
     user = ForeignKeyField(UsersModel, backref="user")
     group = ForeignKeyField(PermissionGroupsModel, backref="permission")
     initial_data = [{
