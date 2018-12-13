@@ -8,10 +8,14 @@ class UsersPermissionsModel(BaseModel):
     Users model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
     user = ForeignKeyField(UsersModel, backref="user")
     group = ForeignKeyField(PermissionGroupsModel, backref="permission")
+    initial_data = [{
+        'user': 1,
+        'group': 1
+    }]
 
     class Meta:
         order_by = ('id',)
-        table_name = "sys_user_permissions"
+        table_name = "sys_users_permissions"

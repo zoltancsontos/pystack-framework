@@ -1,4 +1,5 @@
 from peewee import *
+from core.orm.db_type import DbType
 from settings.settings import SETTINGS
 from datetime import datetime
 from playhouse.shortcuts import model_to_dict
@@ -16,7 +17,8 @@ class BaseModel(Model):
 
     class Meta:
         database = database_proxy
-        schema = SETTINGS['DATABASE']['SCHEMA']
+        if SETTINGS['DATABASE']['ADAPTER_TYPE'] == DbType.MYSQL:
+            schema = SETTINGS['DATABASE']['SCHEMA']
 
     @staticmethod
     def __find_fk_indexes__(s_model):

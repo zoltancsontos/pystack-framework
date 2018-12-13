@@ -1,5 +1,6 @@
-from falcon import *
-from settings.settings import *
+import os
+from falcon import falcon
+from settings.settings import SETTINGS
 
 from chameleon import PageTemplateLoader
 
@@ -9,10 +10,14 @@ class BasePage(object):
     Generic base page object
     """
 
+    model = None
+    property_types = []
     default_404 = SETTINGS['VIEWS']['DEFAULT_404_TEMPLATE']
     templates_dir = 'templates/'
     template = 'index.html'
     data = {}
+    allowed_methods = ['GET']
+    group_access = SETTINGS['PERMISSIONS']['GROUPS']
 
     def load_templates(self, base_dir=None):
         """
@@ -67,8 +72,7 @@ class BasePage(object):
         try:
             template = templates[self.template]
         except ValueError as val:
-            data['template_error'] = str(val)
-            template = templates[self.default_404]
+            self.__forbidden_handler__(req, resp)
         resp.status = falcon.HTTP_200
         resp.content_type = "text/html"
         resp.body = (template(data=data))

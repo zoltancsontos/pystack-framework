@@ -8,9 +8,9 @@ class UserTokenModel(BaseModel):
     Token model definition
     :notes: add any additional fields below id
     """
-    id = PrimaryKeyField()
+    id = AutoField()
     user = ForeignKeyField(UsersModel, backref="tokens")
-    token = CharField(max_length=240)
+    token = TextField()
     created = DateTimeField(default=datetime.datetime.now)
 
     class Meta:

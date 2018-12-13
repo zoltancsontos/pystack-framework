@@ -2,130 +2,31 @@
 <html>
     <head>
         <title>${data.title}</title>
-        <link rel="stylesheet" href="assets/css/python.angular.stack.css" />
+        <link rel="stylesheet" href="/assets/css/python.angular.stack.css" />
     </head>
     <body class="login">
         <div class="wrapper">
-            <img class="app-logo" src="assets/images/pystack-logo.png" alt="PyStack - full stack python framework" />
+            <img class="app-logo" src="/assets/images/pystack-logo.svg" alt="PyStack - full stack python framework" />
             <form id="login-form" action="#">
                 <h1>${data.text}</h1>
                 <small class="message hide"></small>
                 <fieldset>
-                    <label>User name</label>
-                    <input type="text" name="login" id="login" placeholder="user name" />
+                    <label>Email</label>
+                    <input type="text" name="email" id="email" placeholder="email" />
                 </fieldset>
                 <fieldset>
                     <label>Password</label>
-                    <input type="password" name="login" id="password" placeholder="password" />
+                    <input type="password" name="password" id="password" placeholder="password" />
                 </fieldset>
                 <fieldset>
                     <input type="submit" value="sign in" id="sign-in" />
                 </fieldset>
             </form>
         </div>
+        <script src="/assets/js/user-services.js"></script>
         <script>
             (function () {
-                class LoginServices {
-
-                    /**
-                     * Public constructor
-                     * @return {void}
-                     */
-                    constructor() {
-                        this.cookies = [];
-                        let signInButton = document.getElementById("sign-in");
-                        signInButton.addEventListener('click', e => this.signIn(e));
-                        this.getCookies();
-                    }
-                    
-                    getCookies() {
-                        this.cookies = document.cookie.split(";").map((item) => {
-                            var parts = item.split("=");
-                            return parts.length !== 0 ?
-                                {
-                                    name: parts[0],
-                                    value: parts[1].replace(/\"/g, '')
-                                } : {};
-                        });
-                    }
-
-                    /**
-                     * Sign in function
-                     * @return {void}
-                     */
-                    signIn(e) {
-                        e.preventDefault();
-                        let message = document.querySelector('.message');
-                        message.classList.add('hide');
-
-                        let login = document.getElementById("login").value;
-                        let password = document.getElementById("password").value;
-                        
-                        if (login === "" || password === "") {
-                            this.setMessage("missing username or password", "error");
-                        } else {
-                            this.sendRequest(login, password)
-                        }
-                    }
-                    
-                    /**
-                     * Sets the form message
-                     * @param {string} messageStr
-                     * @param {string} type  
-                     */
-                    setMessage(messageStr, type) {
-                        let message = document.querySelector('.message');
-                        message.classList.remove('error');
-                        message.classList.remove('hide');
-                        if (type !== undefined) {
-                            message.innerText = messageStr;
-                            message.classList.add(type);
-                        }
-                    }
-
-                    /**
-                     * Handles the success callback
-                     * @param {event} e
-                     * @return {void}
-                     */
-                    handleCallback(e) {
-                        let rawData = e.srcElement.responseText;
-                        if (rawData !== undefined) {
-                            let parsedData = JSON.parse(rawData);
-                            if (parsedData.token !== undefined) {
-                                this.setMessage('You were successfully logged in!', 'success');
-                                if (this.cookies.length !== 0) {
-                                    const redirect = this.cookies.filter(item => item.name === 'redirect')[0];
-                                    if (redirect != undefined) {
-                                        setTimeout(() => {
-                                            window.location = redirect.value;
-                                        }, 1000);
-                                    }
-                                }
-                            } else {
-                                this.setMessage(parsedData.message, 'error')
-                            }
-                        }
-                    }
-
-                    /**
-                     * Sends the request to the server
-                     * @param {string} loginStr
-                     * @param {string} passwordStr
-                     */
-                    sendRequest(loginStr, passwordStr) {
-                        let xhr = new XMLHttpRequest();
-                        var data = {
-                            login: loginStr,
-                            password: passwordStr
-                        };
-                        xhr.open("POST", "/v1/users/login", true);
-                        xhr.addEventListener('load', e => this.handleCallback(e));
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        xhr.send(JSON.stringify(data));
-                    }
-                }
-                let handler = new LoginServices();
+                let handler = new UserServices();
             }());
         </script>
     </body>

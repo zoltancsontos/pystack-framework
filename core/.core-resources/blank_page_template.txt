@@ -2,11 +2,11 @@
 <html>
     <head>
         <title>${data.title}</title>
-        <link rel="stylesheet" href="assets/css/python.angular.stack.css" />
+        <link rel="stylesheet" href="/assets/css/python.angular.stack.css" />
     </head>
     <body>
         <div class="wrapper">
-            <img class="app-logo" src="assets/images/pystack-logo.png" alt="PyStack - full stack python framework" />
+            <img class="app-logo" src="/assets/images/pystack-logo.svg" alt="PyStack - full stack python framework" />
             <h1>${data.text}</h1>
         </div>
     </body>

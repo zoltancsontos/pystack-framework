@@ -1,12 +1,12 @@
 from core.base_resource import BaseResource
-from modules.Settings.Settings_model import SettingsModel
+from modules.ExampleApi.ExampleApi_model import ExampleApiModel
 
 
-class SettingsResource(BaseResource):
+class ExampleApiResource(BaseResource):
     """
-    Settings resource handler
+    ExampleApi resource handler
     """
-    model = SettingsModel
+    model = ExampleApiModel
     """
     property_types are being used for validation - you could specify different rules for all model properties
     Example property type<Dictionary>:

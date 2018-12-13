@@ -4,3 +4,4 @@ __pycache__/
 *.py[cod]
 *.pyc
 .vscode/
+app.db

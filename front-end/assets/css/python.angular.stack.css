@@ -1,7 +1,7 @@
 body, html {
   margin: 0;
   padding: 0;
-  background: #353a46;
+  background: #1D1E35;
   font-family: Helvetica Neue, Helvetica;
   color: white;
   font-weight: 300;
@@ -29,14 +29,14 @@ img.app-logo {
 }
 
 .login img.app-logo {
-  width: 100px;
+  width: 130px;
 }
 .login .wrapper {
   margin:30px auto;
   max-width: 500px;
 }
 .login .wrapper h1 {
-  font-size: 16px;
+  font-size: 20px;
   border-top: 0;
   margin-top: 0;
   margin-bottom: 0;
@@ -48,7 +48,7 @@ img.app-logo {
   display: block;
   font-weight: 100;
   padding: 0 0 10px 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 .login .wrapper fieldset {
   border: 0;
@@ -57,7 +57,7 @@ img.app-logo {
   max-width: 300px;
   text-align: left;
   margin: 40px auto;
-  box-shadow: 0 0 50px #222;
+  box-shadow: 0 0 50px #000;
   padding: 10px 20px 50px 20px;
 }
 .login #login-form input {
@@ -66,6 +66,7 @@ img.app-logo {
   padding: 0 5px;
   box-sizing: border-box;
   border: 0;
+  font-size: 13px;
 }
 .login #login-form input#sign-in {
   border: 0;

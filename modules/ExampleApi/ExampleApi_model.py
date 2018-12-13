@@ -1,13 +1,15 @@
 from core.base_model import *
 
 
-class {}Model(BaseModel):
+class ExampleApiModel(BaseModel):
     """
-    {} model definition
+    ExampleApi model definition
     :notes: add any additional fields below id
     """
     id = AutoField()
+    item_name = CharField()
+    item_type = CharField()
 
     class Meta:
         order_by = ('id',)
-        table_name = '{}_Model'
+        table_name = 'example_api'
