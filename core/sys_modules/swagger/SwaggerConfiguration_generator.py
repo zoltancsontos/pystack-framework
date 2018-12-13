@@ -17,8 +17,8 @@ class SwaggerConfigurationGenerator(BaseResource):
         'long': 'integer',
         'float': 'number',
         'str': 'string',
-        'tuple': 'array',
-        'list': 'array',
+        'tuple': 'object',
+        'list': 'object',
         'dict': 'object'
     }
 

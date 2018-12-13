@@ -183,13 +183,13 @@ class BaseResource(object):
             # Check if the types are matching
             if valid_request:
                 for i, val in enumerate(request_props):
-                    req_type = request_types[i]
+                    req_type = request_types[i].__name__
                     orgn_def = self.__get_prop_by_key__(self.property_types, val)
                     if orgn_def['type'] != req_type:
                         valid_request = False
                         prop_list.append({
                             'prop': val,
-                            'reason': 'expected ' + str(prop_types[i]) + ' got ' + str(request_types[i])
+                            'reason': 'expected ' + str(prop_types[i]) + ' got ' + str(req_type)
                         })
                         break
 

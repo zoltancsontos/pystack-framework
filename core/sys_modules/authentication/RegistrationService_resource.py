@@ -18,23 +18,23 @@ class RegistrationService(BaseResource):
 
     property_types = [{
         'key': 'first_name',
-        'type': str,
+        'type': 'str',
         'required': True
     }, {
         'key': 'middle_name',
-        'type': str,
+        'type': 'str',
         'required': False
     }, {
         'key': 'last_name',
-        'type': str,
+        'type': 'str',
         'required': True
     }, {
         'key': 'email',
-        'type': str,
+        'type': 'str',
         'required': True
     }, {
         'key': 'password',
-        'type': str,
+        'type': 'str',
         'required': True
     }]
     allowed_methods = ['POST']
