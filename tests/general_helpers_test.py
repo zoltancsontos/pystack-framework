@@ -41,7 +41,7 @@ class GeneralHelpersTest(unittest.TestCase):
         """
         expected_file_name = 'test_file.txt'
 
-        dir_contents = self.helpers.get_dir_contents('../tests/test_dir')
+        dir_contents = self.helpers.get_dir_contents('tests/test_dir')
         actual_files = [item['file'] for item in dir_contents]
 
         self.assertEqual(len(actual_files), 1)
@@ -53,7 +53,7 @@ class GeneralHelpersTest(unittest.TestCase):
         :return:
         """
         expected_keyword = 'tests/test_dir'
-        dir_structure = self.helpers.get_dir_structure('../tests/test_dir')
+        dir_structure = self.helpers.get_dir_structure('tests/test_dir')
         self.assertEqual(len(dir_structure), 1)
 
         first_item = dir_structure[0]
