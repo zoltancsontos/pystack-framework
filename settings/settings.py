@@ -10,13 +10,8 @@ SETTINGS = {
     'APP_VERSION': 'v1',
     'APP_NAME': 'PyStack',
     'DATABASE': {
-        'ADAPTER_TYPE': DbType.MYSQL,
-        'SQL_DEBUG': True,
-        'HOST': env['DB_HOST'],
-        'USER': env['DB_USER'],
-        'PASSWORD': env['DB_PASSWORD'],
-        'PORT': env['DB_PORT'],
-        'SCHEMA': env['DB_SCHEMA']
+        'ADAPTER_TYPE': DbType.SQLLITE,
+        'SQL_DEBUG': True
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,
