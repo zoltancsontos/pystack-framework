@@ -11,12 +11,7 @@ SETTINGS = {
     'APP_NAME': 'PyStack',
     'DATABASE': {
         'ADAPTER_TYPE': DbType.SQLLITE,
-        'SQL_DEBUG': True,
-        # 'HOST': db_host,
-        # 'USER': db_user,
-        # 'PASSWORD': db_password,
-        # 'PORT': 3306,
-        # 'SCHEMA': db_schema
+        'SQL_DEBUG': True
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,
@@ -48,5 +43,11 @@ SETTINGS = {
         'DOCUMENTATION_TITLE': 'App title',
         'DOCUMENTATION_DESCRIPTION': 'Api documentation',
         'TERMS_AND_CONDITIONS_URL': 'http://www.google.com'
+    },
+    'CORS': {
+        'ALLOWED_ORIGINS': 'http://localhost:3000',
+        'ALLOWED_METHODS': 'GET, PUT, POST, DELETE, OPTIONS, PATCH',
+        'ALLOWED_HEADERS': 'Content-Type, Bearer, Authorization',
+        'ALLOW_CREDENTIALS': True
     }
 }
