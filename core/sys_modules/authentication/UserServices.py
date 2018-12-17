@@ -37,6 +37,7 @@ class UserServices:
             except UserServices.model.DoesNotExist:
                 user = None
                 user_permissions = None
+                BaseResource.conn.close()
             if user is not None:
                 payload = {
                     'payload': {
