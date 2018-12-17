@@ -14,7 +14,6 @@ class CorsMiddleware(object):
         :param resp:
         :return:
         """
-        print('cors fired')
         cors_settings = SETTINGS['CORS']
         resp.set_header('Access-Control-Allow-Origin', cors_settings['ALLOWED_ORIGINS'])
         resp.set_header('Access-Control-Allow-Methods', cors_settings['ALLOWED_METHODS'])
