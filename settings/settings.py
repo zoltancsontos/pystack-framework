@@ -10,13 +10,13 @@ SETTINGS = {
     'APP_VERSION': 'v1',
     'APP_NAME': 'PyStack',
     'DATABASE': {
-        'ADAPTER_TYPE': DbType.SQLLITE,
+        'ADAPTER_TYPE': DbType.MYSQL,
         'SQL_DEBUG': True,
-        # 'HOST': db_host,
-        # 'USER': db_user,
-        # 'PASSWORD': db_password,
-        # 'PORT': 3306,
-        # 'SCHEMA': db_schema
+        'HOST': env['DB_HOST'],
+        'USER': env['DB_USER'],
+        'PASSWORD': env['DB_PASSWORD'],
+        'PORT': env['DB_PORT'],
+        'SCHEMA': env['DB_SCHEMA']
     },
     'AUTHENTICATION': {
         'ENABLE_SYS_AUTHENTICATION': True,
@@ -48,5 +48,11 @@ SETTINGS = {
         'DOCUMENTATION_TITLE': 'App title',
         'DOCUMENTATION_DESCRIPTION': 'Api documentation',
         'TERMS_AND_CONDITIONS_URL': 'http://www.google.com'
+    },
+    'CORS': {
+        'ALLOWED_ORIGINS': 'http://localhost:3000',
+        'ALLOWED_METHODS': 'GET, PUT, POST, DELETE, OPTIONS, PATCH',
+        'ALLOWED_HEADERS': 'Content-Type, Bearer, Authorization',
+        'ALLOW_CREDENTIALS': True
     }
 }

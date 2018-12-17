@@ -33,37 +33,38 @@ class AuthenticationMiddleware(object):
             resp:
         Returns:
         """
-        if SETTINGS['AUTHENTICATION']['ENABLE_SYS_AUTHENTICATION'] is True:
-            url = req.relative_uri
-            is_file = False
+        if req.method != 'OPTIONS':
+            if SETTINGS['AUTHENTICATION']['ENABLE_SYS_AUTHENTICATION'] is True:
+                url = req.relative_uri
+                is_file = False
 
-            for ext in self.EXTENSION_WHITELIST:
-                if ext in url:
-                    is_file = True
-                    break
+                for ext in self.EXTENSION_WHITELIST:
+                    if ext in url:
+                        is_file = True
+                        break
 
-            if url not in self.URL_WHITE_LIST and not is_file:
-                content_type = '' if req.content_type is None else req.content_type
-                accept = '' if req.accept is None else req.accept
-                cookies = req.cookies
-                valid = False
-                if 'token' in cookies:
-                    token = cookies['token']
-                    valid = UserServices.validate(token)
+                if url not in self.URL_WHITE_LIST and not is_file:
+                    content_type = '' if req.content_type is None else req.content_type
+                    accept = '' if req.accept is None else req.accept
+                    cookies = req.cookies
+                    valid = False
+                    if 'token' in cookies:
+                        token = cookies['token']
+                        valid = UserServices.validate(token)
 
-                if not valid:
-                    if 'json' in content_type or 'json' in accept:
-                        resp.status = falcon.HTTP_404
-                        resp.content_type = 'application/json'
-                        resp.unset_cookie('token')
-                        raise falcon.HTTPUnauthorized('Access denied', 'in order to continue please log in')
-                    else:
-                        redirect = req.relative_uri
-                        if 'logout' not in redirect and 'access-denied' not in redirect:
-                            resp.set_cookie('redirect', redirect.strip('\"'), max_age=600, path='/', http_only=False)
+                    if not valid:
+                        if 'json' in content_type or 'json' in accept:
+                            resp.status = falcon.HTTP_404
+                            resp.content_type = 'application/json'
+                            resp.unset_cookie('token')
+                            raise falcon.HTTPUnauthorized('Access denied', 'in order to continue please log in')
                         else:
-                            resp.unset_cookie('redirect')
-                        raise falcon.HTTPTemporaryRedirect('/login')
+                            redirect = req.relative_uri
+                            if 'logout' not in redirect and 'access-denied' not in redirect:
+                                resp.set_cookie('redirect', redirect.strip('\"'), max_age=600, path='/', http_only=False)
+                            else:
+                                resp.unset_cookie('redirect')
+                            raise falcon.HTTPTemporaryRedirect('/login')
 
     @falcon.after(BaseResource.conn.close)
     def process_resource(self, req, resp, resource, params):
