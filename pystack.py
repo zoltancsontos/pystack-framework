@@ -205,7 +205,10 @@ elif 'run' in args:
         port_str = '--port={}'.format(port_arg['value'])
     print(pystack_logo)
     print("")
-    call(["waitress-serve", port_str, "app:app"])
+    try:
+        call(["waitress-serve", port_str, "app:app"])
+    except KeyboardInterrupt as ki:
+        print("Shutting down PyStack...")
 # ==========================================================
 #
 # Help logic
