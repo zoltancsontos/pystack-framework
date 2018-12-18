@@ -15,6 +15,8 @@ class CorsMiddleware(object):
         :return:
         """
         cors_settings = SETTINGS['CORS']
+        if SETTINGS['FORCE_SSL']:
+            resp.set_header('Strict-Transport-Security', 'max-age=63072000')
         resp.set_header('Access-Control-Allow-Origin', cors_settings['ALLOWED_ORIGINS'])
         resp.set_header('Access-Control-Allow-Methods', cors_settings['ALLOWED_METHODS'])
         resp.set_header('Access-Control-Allow-Headers', cors_settings['ALLOWED_HEADERS'])
